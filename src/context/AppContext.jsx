@@ -7,6 +7,7 @@
  */
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import mockData from '../data/mockData';
+import apiService from '../services/api';
 
 const AppContext = createContext();
 
@@ -192,123 +193,312 @@ export function AppProvider({ children }) {
     return activeSession;
   };
 
-  /* ── Chargement initial ─────────────────────────────────────── */
-  useEffect(() => {
-    delay(100).then(() => setReady(true));
+  const refreshClasses = useCallback(async () => {
+    try {
+      const data = await apiService.getClasses();
+      const mapped = data.map(c => ({
+        id: c.id,
+        libelle: c.libelle,
+        idCycle: c.idCycle,
+        effectif: c.effectif || 0,
+        session: activeSessionLabel
+      }));
+      setClasses(mapped);
+    } catch (err) {
+      console.error('Failed to load classes from DB:', err);
+    }
+  }, [activeSessionLabel]);
+
+  const refreshEleves = useCallback(async () => {
+    try {
+      const response = await apiService.getStudents();
+      const data = response.data || response;
+      const mapped = data.map(e => ({
+        id: e.matricule,
+        matricule: String(e.matricule),
+        nom: e.nom,
+        prenom: e.prenom,
+        sexe: e.sexe,
+        parentNom: e.parentNom || '',
+        parentEmail: e.parentEmail || '',
+        parentTel: e.parentTel || '',
+        idClasse: e.classe_id,
+        statut: e.statut || 'actif',
+        dateInscription: e.created_at || new Date().toISOString(),
+        session: activeSessionLabel
+      }));
+      setEleves(mapped);
+    } catch (err) {
+      console.error('Failed to load students from DB:', err);
+    }
+  }, [activeSessionLabel]);
+
+  const refreshUtilisateurs = useCallback(async () => {
+    try {
+      const data = await apiService.getUsers();
+      const mapped = data.map(u => ({
+        id: u.id,
+        nom: u.nom,
+        prenom: u.prenom || '',
+        email: u.email,
+        role: u.role,
+        actif: !!u.actif,
+        telephone: u.telephone || ''
+      }));
+      setUtilisateurs(mapped);
+    } catch (err) {
+      console.error('Failed to load users from DB:', err);
+    }
   }, []);
+
+  const loadAllData = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    await Promise.all([
+      refreshClasses().catch(() => {}),
+      refreshEleves().catch(() => {}),
+      refreshUtilisateurs().catch(() => {})
+    ]);
+  }, [refreshClasses, refreshEleves, refreshUtilisateurs]);
+
+  /* ── Chargement initial et restauration de session ────────────── */
+  useEffect(() => {
+    const init = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const res = await apiService.getCurrentUser();
+          if (res && res.user) {
+            setUtilisateurActif(res.user);
+            await Promise.all([
+              apiService.getClasses().then(data => {
+                setClasses(data.map(c => ({
+                  id: c.id,
+                  libelle: c.libelle,
+                  idCycle: c.idCycle,
+                  effectif: c.effectif || 0,
+                  session: activeSessionLabel
+                })));
+              }),
+              apiService.getStudents().then(response => {
+                const data = response.data || response;
+                setEleves(data.map(e => ({
+                  id: e.matricule,
+                  matricule: String(e.matricule),
+                  nom: e.nom,
+                  prenom: e.prenom,
+                  sexe: e.sexe,
+                  parentNom: e.parentNom || '',
+                  parentEmail: e.parentEmail || '',
+                  parentTel: e.parentTel || '',
+                  idClasse: e.classe_id,
+                  statut: e.statut || 'actif',
+                  dateInscription: e.created_at || new Date().toISOString(),
+                  session: activeSessionLabel
+                })));
+              }),
+              apiService.getUsers().then(data => {
+                setUtilisateurs(data.map(u => ({
+                  id: u.id,
+                  nom: u.nom,
+                  prenom: u.prenom || '',
+                  email: u.email,
+                  role: u.role,
+                  actif: !!u.actif,
+                  telephone: u.telephone || ''
+                })));
+              })
+            ]).catch(err => console.error('Error loading initial data:', err));
+          }
+        } catch (err) {
+          console.error('Session restore failed:', err);
+          localStorage.removeItem('token');
+        }
+      }
+      setReady(true);
+    };
+    init();
+  }, [activeSessionLabel]);
 
   /* ═══════════════════════════════════════════════════════════════
      AUTH
   ═══════════════════════════════════════════════════════════════ */
   const login = async (email, mdp) => {
-    await delay(200);
-    let user = utilisateurs.find(u => u.email === email && u.motDePasse === mdp && u.actif);
-    let isFirstParentLogin = false;
+    try {
+      const response = await apiService.login(email, mdp);
+      if (response && response.token) {
+        setUtilisateurActif(response.user);
+        
+        // Load data immediately upon successful login
+        const [cls, stds, usrs] = await Promise.all([
+          apiService.getClasses().catch(() => []),
+          apiService.getStudents().catch(() => ({ data: [] })),
+          apiService.getUsers().catch(() => [])
+        ]);
 
-    if (!user) {
-      // Vérifier si c'est un parent qui se connecte pour la première fois (identifiant = email, mdp = téléphone)
-      const eleveLien = eleves.find(e => e.parentEmail === email && e.parentTel === mdp);
-      if (eleveLien) {
-        const parentExiste = utilisateurs.find(u => u.email === email);
-        if (!parentExiste) {
-          // Créer le compte parent s'il n'existe pas encore dans utilisateurs
-          user = {
-            id: `parent-${Date.now()}`,
-            nom: eleveLien.parentNom || 'Parent',
-            prenom: '',
-            email: email,
-            motDePasse: mdp,
-            telephone: mdp,
-            role: 'parent',
-            actif: true
-          };
-          setUtilisateurs(prev => [...prev, user]);
-          isFirstParentLogin = true;
-        }
+        setClasses(cls.map(c => ({
+          id: c.id,
+          libelle: c.libelle,
+          idCycle: c.idCycle,
+          effectif: c.effectif || 0,
+          session: activeSessionLabel
+        })));
+
+        const stdList = stds.data || stds;
+        setEleves(stdList.map(e => ({
+          id: e.matricule,
+          matricule: String(e.matricule),
+          nom: e.nom,
+          prenom: e.prenom,
+          sexe: e.sexe,
+          parentNom: e.parentNom || '',
+          parentEmail: e.parentEmail || '',
+          parentTel: e.parentTel || '',
+          idClasse: e.classe_id,
+          statut: e.statut || 'actif',
+          dateInscription: e.created_at || new Date().toISOString(),
+          session: activeSessionLabel
+        })));
+
+        setUtilisateurs(usrs.map(u => ({
+          id: u.id,
+          nom: u.nom,
+          prenom: u.prenom || '',
+          email: u.email,
+          role: u.role,
+          actif: !!u.actif,
+          telephone: u.telephone || ''
+        })));
+
+        setPageHistory(['dashboard']);
+        return true;
       }
-    } else {
-      // L'utilisateur s'est connecté. Vérifier s'il a encore son mot de passe par défaut (numéro de téléphone)
-      if (user.role === 'parent') {
-        const eleveLien = eleves.find(e => e.parentEmail === user.email);
-        if (eleveLien && eleveLien.parentTel === mdp) {
-          isFirstParentLogin = true;
-        }
-      }
+      return false;
+    } catch (err) {
+      console.error('Login failed:', err);
+      return false;
     }
-
-    if (!user) return false;
-
-    setUtilisateurActif(user);
-    if (isFirstParentLogin) {
-      setPageHistory(['parametres']);
-    } else {
-      setPageHistory(['dashboard']);
-    }
-    return true;
   };
 
   const logout = () => {
+    apiService.logout();
     setUtilisateurActif(null);
     setPageHistory(['dashboard']);
   };
 
-  /* ═══════════════════════════════════════════════════════════════
-     ÉLÈVES
-  ═══════════════════════════════════════════════════════════════ */
+  /* ── ÉLÈVES ─────────────────────────────────────────────────── */
   const ajouterEleve = async (data) => {
-    await delay(100);
-    const dateInscription = new Date().toISOString();
-    const anneeScolaire = calcAnneeScolaire(dateInscription);
-    const matricule = `MAT-${new Date().getFullYear()}-${String(eleves.length + 1).padStart(3, '0')}`;
-    const nouveau = { id: randomId(), matricule, dateInscription, anneeScolaire, statut: 'actif', session: activeSessionLabel, ...data };
-    setEleves(prev => [nouveau, ...prev]);
-    notify('Élève inscrit avec succès');
-    return nouveau;
+    try {
+      const payload = {
+        nom: data.nom,
+        prenom: data.prenom,
+        date_naissance: data.dateNaissance || data.date_naissance || new Date().toISOString(),
+        lieu_naissance: data.lieuNaissance || data.lieu_naissance || '',
+        sexe: data.sexe,
+        classe_id: data.idClasse ? parseInt(data.idClasse, 10) : null,
+        parentNom: data.parentNom,
+        parentTel: data.parentTel,
+        parentEmail: data.parentEmail
+      };
+      const response = await apiService.createStudent(payload);
+      await refreshEleves();
+      notify('Élève inscrit avec succès');
+      return response;
+    } catch (err) {
+      console.error('Failed to create student:', err);
+      notify('Erreur d\'inscription: ' + err.message, 'error');
+      throw err;
+    }
   };
 
   const modifierEleve = async (id, data) => {
-    await delay(100);
-    setEleves(prev => prev.map(el => el.id === id ? { ...el, ...data } : el));
-    notify('Élève mis à jour');
+    try {
+      const payload = {
+        nom: data.nom,
+        prenom: data.prenom,
+        date_naissance: data.dateNaissance || data.date_naissance || new Date().toISOString(),
+        lieu_naissance: data.lieuNaissance || data.lieu_naissance || '',
+        sexe: data.sexe,
+        classe_id: data.idClasse ? parseInt(data.idClasse, 10) : null,
+        parentNom: data.parentNom,
+        parentTel: data.parentTel,
+        parentEmail: data.parentEmail
+      };
+      const matricule = data.matricule || id;
+      await apiService.updateStudent(matricule, payload);
+      await refreshEleves();
+      notify('Élève mis à jour');
+    } catch (err) {
+      console.error('Failed to update student:', err);
+      notify('Erreur de mise à jour: ' + err.message, 'error');
+    }
   };
 
   const supprimerEleve = async (id) => {
-    await delay(100);
-    // Archive au lieu de supprimer définitivement
-    setEleves(prev => prev.map(el => el.id === id ? { ...el, statut: 'archive', dateArchivage: new Date().toISOString() } : el));
-    notify('Élève archivé — visible uniquement pour l\'admin', 'warning');
+    try {
+      await apiService.deleteStudent(id);
+      await refreshEleves();
+      notify('Élève supprimé', 'warning');
+    } catch (err) {
+      console.error('Failed to delete student:', err);
+      notify('Erreur de suppression: ' + err.message, 'error');
+    }
   };
 
   const restaurerEleve = async (id) => {
-    await delay(100);
-    setEleves(prev => prev.map(el => el.id === id ? { ...el, statut: 'actif', dateArchivage: null } : el));
-    notify('Élève restauré avec succès');
+    try {
+      await apiService.updateStudent(id, { actif: 1 });
+      await refreshEleves();
+      notify('Élève restauré avec succès');
+    } catch (err) {
+      console.error('Failed to restore student:', err);
+      notify('Erreur de restauration: ' + err.message, 'error');
+    }
   };
 
-  /* ═══════════════════════════════════════════════════════════════
-     CLASSES
-  ═══════════════════════════════════════════════════════════════ */
+  /* ── CLASSES ────────────────────────────────────────────────── */
   const ajouterClasse = async (data) => {
-    await delay(100);
-    const nouvelle = { id: randomId(), effectif: 0, annee: activeSessionLabel, session: activeSessionLabel, ...data };
-    setClasses(prev => [nouvelle, ...prev]);
-    notify('Classe créée');
-    return nouvelle;
+    try {
+      const payload = {
+        libelle: data.libelle,
+        idCycle: data.idCycle || 1,
+        idAdmin: data.idAdmin || 1
+      };
+      const response = await apiService.createClass(payload);
+      await refreshClasses();
+      notify('Classe créée');
+      return response;
+    } catch (err) {
+      console.error('Failed to create class:', err);
+      notify('Erreur de création: ' + err.message, 'error');
+      throw err;
+    }
   };
 
   const modifierClasse = async (id, data) => {
-    await delay(100);
-    setClasses(prev => prev.map(c => c.id === id ? { ...c, ...data } : c));
-    notify('Classe mise à jour');
+    try {
+      const payload = {
+        libelle: data.libelle,
+        idCycle: data.idCycle || 1
+      };
+      await apiService.updateClass(id, payload);
+      await refreshClasses();
+      notify('Classe mise à jour');
+    } catch (err) {
+      console.error('Failed to update class:', err);
+      notify('Erreur de mise à jour: ' + err.message, 'error');
+    }
   };
 
   const supprimerClasse = async (id) => {
-    await delay(100);
-    setClasses(prev => prev.filter(c => c.id !== id));
-    setMatieres(prev => prev.filter(m => m.classeId !== id));
-    setCoefficients(prev => prev.filter(c => c.classeId !== id));
-    setEvaluations(prev => prev.filter(e => e.classeId !== id));
-    notify('Classe supprimée', 'warning');
+    try {
+      await apiService.deleteClass(id);
+      await refreshClasses();
+      notify('Classe supprimée', 'warning');
+    } catch (err) {
+      console.error('Failed to delete class:', err);
+      notify('Erreur de suppression: ' + err.message, 'error');
+    }
   };
 
   const sauvegarderEmploiDuTemps = async (classeId, data) => {
@@ -518,34 +708,70 @@ export function AppProvider({ children }) {
   /* ═══════════════════════════════════════════════════════════════
      UTILISATEURS / PERSONNEL
   ═══════════════════════════════════════════════════════════════ */
+  /* ── UTILISATEURS ───────────────────────────────────────────── */
   const ajouterUtilisateur = async (data) => {
-    await delay(100);
-    const nouveau = { id: randomId(), actif: true, classesIds: [], ...data };
-    setUtilisateurs(prev => [nouveau, ...prev]);
-    notify('Utilisateur créé');
-    return nouveau;
+    try {
+      const response = await apiService.createUser(data);
+      await refreshUtilisateurs();
+      notify('Utilisateur créé');
+      return response;
+    } catch (err) {
+      console.error('Failed to create user:', err);
+      notify('Erreur de création: ' + err.message, 'error');
+    }
   };
 
   const modifierUtilisateur = async (id, data) => {
-    await delay(100);
-    setUtilisateurs(prev => prev.map(u => u.id === id ? { ...u, ...data } : u));
-    if (utilisateurActif?.id === id) {
-      setUtilisateurActif(prev => ({ ...prev, ...data }));
+    try {
+      const response = await apiService.request('/auth/profile', {
+        method: 'PUT',
+        body: JSON.stringify({
+          prenom: data.prenom,
+          nom: data.nom,
+          telephone: data.telephone,
+          motDePasse: data.motDePasse
+        })
+      });
+      if (response.success) {
+        setUtilisateurActif(prev => ({
+          ...prev,
+          prenom: data.prenom !== undefined ? data.prenom : prev.prenom,
+          nom: data.nom !== undefined ? data.nom : prev.nom,
+          telephone: data.telephone !== undefined ? data.telephone : prev.telephone
+        }));
+        await refreshUtilisateurs();
+        notify('Profil mis à jour');
+      }
+    } catch (err) {
+      console.error('Failed to update profile:', err);
+      notify('Erreur de mise à jour: ' + err.message, 'error');
     }
-    notify('Profil mis à jour');
   };
 
   const supprimerUtilisateur = async (id) => {
-    await delay(100);
-    // Désactive au lieu de supprimer définitivement
-    setUtilisateurs(prev => prev.map(u => u.id === id ? { ...u, actif: false, dateDesactivation: new Date().toISOString() } : u));
-    notify('Utilisateur désactivé — visible uniquement en admin', 'warning');
+    try {
+      await apiService.deleteUser(id);
+      await refreshUtilisateurs();
+      notify('Utilisateur désactivé — visible uniquement en admin', 'warning');
+    } catch (err) {
+      console.error('Failed to delete user:', err);
+      notify('Erreur de désactivation: ' + err.message, 'error');
+    }
   };
 
   const restaurerUtilisateur = async (id) => {
-    await delay(100);
-    setUtilisateurs(prev => prev.map(u => u.id === id ? { ...u, actif: true, dateDesactivation: null } : u));
-    notify('Utilisateur réactivé avec succès');
+    try {
+      // Direct REST calls to reactivate the user
+      await apiService.request(`/users/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ actif: 1 })
+      });
+      await refreshUtilisateurs();
+      notify('Utilisateur réactivé avec succès');
+    } catch (err) {
+      console.error('Failed to restore user:', err);
+      notify('Erreur de réactivation: ' + err.message, 'error');
+    }
   };
 
   /* ═══════════════════════════════════════════════════════════════
