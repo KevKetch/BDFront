@@ -1,0 +1,376 @@
+/**
+ * @file translations.js
+ * @description Traductions complètes FR/EN pour toutes les interfaces de l'application sans emojis.
+ */
+const T = {
+  fr: {
+    // Navigation
+    dashboard: 'Tableau de bord', eleves: 'Élèves', classes: 'Classes',
+    bulletins: 'Bulletins', paiements: 'Paiements', transport: 'Transport',
+    personnel: 'Personnel', parametres: 'Paramètres', evaluations: 'Évaluations',
+    coefficients: 'Coefficients', messagerie: 'Messagerie', banqueEpreuves: 'Banque d\'épreuves',
+    mesEleves: 'Mes Élèves', mesBulletins: 'Bulletins & Notes',
+    mesEnfants: 'Mes Enfants', dossierScolaire: 'Dossier Scolaire',
+    mesPaiements: 'Mes Paiements', monTableauDeBord: 'Mon Tableau de bord',
+    saisieNotesDiscipline: 'Saisie Notes', adminRoot: 'Administration',
+    emploiDuTemps: 'Emploi du Temps', emploiDuTempsDe: 'Emploi du Temps :',
+    aucunEmploiTemps: 'Aucun emploi du temps', aucunEmploiTempsDesc: "L'emploi du temps de cette classe n'a pas encore été configuré par la direction.",
+    horaire: 'Horaire', pause: 'Pause', fermer: 'Fermer',
+
+    // Auth
+    connexion: 'Connexion', bienvenue: 'Bienvenue!',
+    connectezVous: 'Connectez-vous à votre espace.',
+    email: 'Adresse email', motDePasse: 'Mot de passe',
+    seConnecter: '→ Se connecter', erreurConnexion: 'Email ou mot de passe incorrect',
+    mdpDemo: 'Mot de passe de démonstration',
+    comptesDemo: 'Comptes de démonstration', deconnexion: 'Déconnexion',
+
+    // Dashboard
+    elevesInscrits: 'Élèves inscrits', anneeEn: 'Année',
+    recettes: 'Recettes (FCFA)', elevesEnBus: 'Élèves en bus',
+    elevesParNiveau: 'Élèves par niveau', repartitionSection: 'Répartition par section',
+    derniersPaiements: 'Derniers paiements', voirTout: 'Voir tout →',
+    inscrireEleve: '+ Inscrire un élève', chargement: 'Chargement...',
+    vueEnsemble: "Vue d'ensemble de l'École Les Étoiles",
+    bulletinsDisponibles: 'Bulletins disponibles', paiementsEffectues: 'Paiements effectués',
+    enfantsScolarises: 'Enfants scolarisés', bulletinsSaisis: 'Bulletins saisis',
+    suiviScolaire: 'Voici le suivi scolaire de vos enfants.',
+    aucunEnfant: 'Aucun enfant inscrit', contactezDirection: "Contactez la direction pour l'inscription.",
+    classeAssignee: 'Classe :', aucuneClasse: 'Aucune classe assignée',
+
+    // Élèves
+    rechercherEleve: 'Rechercher un élève...', toutesClasses: 'Toutes les classes',
+    toutesSections: 'Toutes sections', eleveTrouve: 'élève(s) trouvé(s)',
+    aucunEleve: 'Aucun élève trouvé', modifiezRecherche: 'Modifiez votre recherche ou inscrivez un nouvel élève.',
+    inscrire: '+ Inscrire', nom: 'Nom', prenom: 'Prénom', dateNaissance: 'Date de naissance',
+    lieuNaissance: 'Lieu de naissance', sexe: 'Sexe', section: 'Section',
+    classe: 'Classe', adresse: 'Adresse', photo: "Photo de l'élève",
+    masculin: 'Masculin', feminin: 'Féminin', choisir: '— Choisir —',
+    choisirClasse: '— Choisir une classe —', choisirSection: '— Choisir une section —',
+    informationsParent: 'Informations des parents / tuteurs',
+    pere: 'Père', mere: 'Mère', tuteur: 'Tuteur',
+    nomComplet: 'Nom complet', telephone: 'Téléphone', emailAcces: 'Email (accès espace parents)',
+    transportScolaire: 'Transport scolaire', emprunterBus: 'Cet élève emprunte le bus scolaire',
+    ligneDeBus: 'Ligne de bus', exLigneA: 'ex: Ligne A — Mvan',
+    annuler: 'Annuler', enregistrer: 'Enregistrer', inscrireAction: 'Inscrire',
+    modifier: 'Modifier', supprimer: 'Supprimer', dossierEleve: "Dossier de l'élève",
+    matricule: 'Matricule', bus: 'Bus scolaire', dateInscription: "Date d'inscription",
+    anneeScolaire: 'Année scolaire', statut: 'Statut', auMoinsUnParent: 'Au moins un parent/tuteur requis',
+    roleParent: 'Rôle du parent',
+    selectionnezRoleParent: 'Veuillez sélectionner le rôle du parent principal',
+    erreurPereRequis: 'Veuillez renseigner le nom et le téléphone du père',
+    erreurMereRequis: 'Veuillez renseigner le nom et le téléphone de la mère',
+    erreurTuteurRequis: 'Veuillez renseigner le nom et le téléphone du tuteur',
+
+    // Bulletins
+    selectionnerEleve: '— Choisir un élève —', sequence: 'Séquence',
+    saisirNotes: '+ Saisir les notes', modifierBulletin: 'Modifier le bulletin',
+    voirBulletin: 'Voir le bulletin', selectionnerUnEleve: 'Sélectionnez un élève',
+    choisirEleveSeq: 'Choisissez un élève et une séquence pour accéder aux bulletins.',
+    noteParMatiere: 'Notes par matière', matiere: 'Matière', coeff: 'Coeff.',
+    noteS20: 'Note /20', appreciation: 'Appréciation', finale: 'Finale:',
+    elementsDisciplinaires: 'Éléments disciplinaires',
+    absences: 'Absences (heures)', retards: 'Retards', conduite: 'Conduite',
+    soinTravail: 'Soin du travail', ponctualite: 'Ponctualité',
+    rangClasse: 'Rang (calculé auto.)', effectifClasse: 'Effectif de la classe',
+    dateConseil: 'Date du conseil de classe', appreciationGenerale: 'Appréciation générale du maître',
+    appreciationPlaceholder: 'Ex: Élève sérieux et appliqué...',
+    enregistrerBulletin: 'Enregistrer le bulletin',
+    telechargerPDF: 'Télécharger PDF', telechargerExcel: 'Télécharger Excel',
+    rang: 'Rang', moy: 'Moy:', rangAuto: '(calculé automatiquement)',
+
+    // Bulletin officiel camerounais
+    repubCameroun: 'REPUBLIQUE DU CAMEROUN', paixTravailPatrie: 'Paix – Travail – Patrie',
+    minEducBase: "MINISTÈRE DE L'ÉDUCATION DE BASE",
+    repCameroon: 'REPUBLIC OF CAMEROON', peaceFatherland: 'Peace – Work – Fatherland',
+    minBasicEdu: 'MINISTRY OF BASIC EDUCATION',
+    bulletinNotes: 'BULLETIN DE NOTES', annee: 'Année',
+    resultatsMatieres: 'RÉSULTATS PAR MATIÈRE', moyenneGenerale: 'MOYENNE GÉNÉRALE',
+    appreciationGen: 'APPRÉCIATION GÉNÉRALE', signatureMaitre: 'Signature du Maître',
+    cachetDirection: 'Cachet & Signature Direction', signatureParent: 'Signature Parent',
+    notePonderee: 'Note Pondérée',
+
+    // Évaluations
+    definirEvaluations: 'Définir les Évaluations',
+    selectionnerClasse: '— Sélectionner une classe —',
+    selectionnerMatiere: '— Sélectionner une matière —',
+    evaluationsPour: 'Évaluations pour', en: 'en',
+    nomEvaluation: "Nom de l'évaluation", pourcentage: 'Pourcentage (%)',
+    ajouterEvaluation: '+ Ajouter une évaluation', total: 'Total:',
+    totalDoit100: 'Le total des pourcentages doit être 100%',
+    sauvegarder: 'Sauvegarder',
+    ajustementAuto: 'Ajustement automatique appliqué pour conserver 100%',
+
+    // Banque d'épreuves
+    banqueEpreuvesTitle: 'Banque d\'épreuves',
+    sujetsTelechargement: 'Sujets d\'évaluations téléchargeables',
+    nomSujet: 'Nom de l\'épreuve',
+    sujetFichier: 'Fichier épreuve',
+    telecharger: 'Télécharger',
+    aucuneEpreuve: 'Aucune épreuve enregistrée dans la banque.',
+    rechercherSujet: 'Rechercher un sujet...',
+
+    // Coefficients
+    coefficientsClasse: 'Coefficients par Classe',
+    choisirClasseCoeff: '— Sélectionner une classe —',
+    coeffPour: 'Coefficients pour',
+    aucuneMatiere: 'Aucune matière pour cette classe.',
+
+    // Personnel
+    personnel2: 'Personnel', membrePersonnel: 'membre(s)',
+    ajouterMembre: '+ Ajouter', ajouterUnMembre: '+ Ajouter un membre',
+    informationsPersonnelles: 'Informations personnelles',
+    role: 'Rôle', classeAssigneePers: 'Classe(s) assignée(s)',
+    motDePasseInitial: 'Mot de passe initial', creer: 'Créer',
+    dateEmbauche: "Date d'embauche", numeroCNI: 'Numéro CNI',
+    quartier: 'Quartier / Adresse', voirFiche: 'Voir la fiche',
+    ficheMembre: 'Fiche du membre', modifierMembre: 'Modifier',
+    supprimerMembre: 'Supprimer', classeEnseignees: 'Classes enseignées',
+    aucuneClasseAssignee: 'Aucune classe assignée',
+    confirmSupprimer: 'Confirmer la suppression ?',
+    infoPersoEnseignant: 'Informations personnelles de l\'enseignant',
+
+    // Classes
+    gestionClasses: 'Gestion des Classes', classesCrees: 'classe(s) créée(s)',
+    nouvelleClasse: '+ Nouvelle classe', modifierClasse: 'Modifier la classe',
+    niveauNom: 'Niveau', enseignant: 'Enseignant(e)', nonAssigne: '— Non assigné —',
+    maitre: 'Maître:', effectif: 'Élèves:', niveau: 'Niveau:',
+    gestionMatieres: 'Gérer les matières', ajouterMatiere: '+ Ajouter une matière',
+    nomMatiere: 'Nom de la matière', supprimerMatiere: 'Supprimer',
+
+    // Paiements
+    totalEncaisse: 'Total encaissé', tauxRecouvrement: 'Taux recouvrement',
+    nbreRecus: 'Nbre de reçus', elevesActifs: 'Élèves actifs',
+    tousLesPaiements: 'Tous les paiements', parEleve: 'Par élève',
+    parametresFrais: 'Paramètres', rechercher: 'Rechercher...',
+    enregistrerPaiement: '+ Enregistrer un paiement', recu: 'Reçu', type: 'Type',
+    montant: 'Montant', date: 'Date', actions: 'Actions',
+    aucunPaiement: 'Aucun paiement trouvé', paye: 'Payé', restant: 'Restant:',
+    imprimerRecu: 'Reçu', fraisInscription: "Frais d'inscription (FCFA)",
+    scolariteAnnuelle: 'Scolarité annuelle (FCFA)', fraisBus: 'Frais de bus (FCFA/an)',
+    tranchesPaiement: 'Tranches de paiement',
+
+    // Transport
+    transportScolaireTitle: 'Transport Scolaire', elevesEnBusSub: 'élève(s) inscrits au bus',
+    lignesActives: 'Lignes actives', aucunEleveBus: 'Aucun élève inscrit au bus',
+    inscrivezBus: 'Inscrivez des élèves au bus depuis la gestion des élèves.',
+    elevesSansLigne: 'Élèves sans ligne assignée',
+
+    // Paramètres
+    parametresCompte: 'Paramètres du compte',
+    informationsPerso: 'Informations personnelles',
+    changerMdp: 'Changer le mot de passe',
+    ancienMdp: 'Ancien mot de passe', nouveauMdp: 'Nouveau mot de passe',
+    confirmerMdp: 'Confirmer', changerAction: 'Changer',
+    apparence: 'Apparence', modeSombre: 'Mode Sombre',
+    modeClairLabel: 'Mode Clair', langue: 'Langue',
+    aPropos: 'À propos', sauvegarderProfil: 'Sauvegarder',
+    activerModeSombre: 'Activer le mode sombre',
+    langueActive: 'Langue active',
+
+    // Messagerie
+    messagerieTitle: 'Messagerie', nouvelleConversation: 'Nouvelle conversation',
+    destinataire: 'Destinataire', sujet: 'Sujet', message: 'Message',
+    envoyer: 'Envoyer', inbox: 'Boîte de réception',
+    envoye: 'Envoyés', repondre: 'Répondre', aucunMessage: 'Aucun message',
+    selectConversation: 'Sélectionnez une conversation',
+    nouveauMessage: 'Nouveau message', ecrireMessage: 'Écrivez votre message...',
+    aucunDestinataire: 'Aucun destinataire disponible',
+
+    // Général
+    oui: 'Oui', non: 'Non', actif: 'actif', inactif: 'inactif',
+    fermer: '✕', retour: '← Retour', bonjour: 'Bonjour,',
+    excellent: 'Excellent', tresBien: 'Très Bien', bien: 'Bien',
+    assezBien: 'Assez Bien', passable: 'Passable', insuffisant: 'Insuffisant',
+    sectionFr: 'francophone', sectionEn: 'anglophone', sectionBi: 'bilingue',
+    chargementApp: "Chargement de l'École Les Étoiles…",
+    accesNonAutorise: 'Accès non autorisé',
+  },
+
+  en: {
+    // Navigation
+    dashboard: 'Dashboard', eleves: 'Students', classes: 'Classes',
+    bulletins: 'Report Cards', paiements: 'Payments', transport: 'Transport',
+    personnel: 'Staff', parametres: 'Settings', evaluations: 'Evaluations',
+    coefficients: 'Coefficients', messagerie: 'Messaging', banqueEpreuves: 'Exam Bank',
+    mesEleves: 'My Students', mesBulletins: 'Report Cards & Grades',
+    mesEnfants: 'My Children', dossierScolaire: 'School File',
+    mesPaiements: 'My Payments', monTableauDeBord: 'My Dashboard',
+    saisieNotesDiscipline: 'Grade Entry', adminRoot: 'Administration',
+    emploiDuTemps: 'Timetable', emploiDuTempsDe: 'Timetable:',
+    aucunEmploiTemps: 'No timetable', aucunEmploiTempsDesc: 'The timetable for this class has not yet been configured by the administration.',
+    horaire: 'Time', pause: 'Break', fermer: 'Close',
+
+    // Auth
+    connexion: 'Login', bienvenue: 'Welcome!',
+    connectezVous: 'Sign in to your account.',
+    email: 'Email address', motDePasse: 'Password',
+    seConnecter: '→ Sign In', erreurConnexion: 'Incorrect email or password',
+    mdpDemo: 'Demo password', comptesDemo: 'Demo accounts',
+    deconnexion: 'Logout',
+
+    // Dashboard
+    elevesInscrits: 'Enrolled Students', anneeEn: 'Year',
+    recettes: 'Revenue (FCFA)', elevesEnBus: 'Bus Students',
+    elevesParNiveau: 'Students by Level', repartitionSection: 'Section Distribution',
+    derniersPaiements: 'Recent Payments', voirTout: 'See all →',
+    inscrireEleve: '+ Enroll Student', chargement: 'Loading...',
+    vueEnsemble: 'Overview — École Les Étoiles',
+    bulletinsDisponibles: 'Report Cards', paiementsEffectues: 'Payments Made',
+    enfantsScolarises: 'Enrolled Children', bulletinsSaisis: 'Report Cards Entered',
+    suiviScolaire: "Here is your children's academic follow-up.",
+    aucunEnfant: 'No children enrolled', contactezDirection: 'Contact the administration for enrollment.',
+    classeAssignee: 'Class:', aucuneClasse: 'No class assigned',
+
+    // Élèves
+    rechercherEleve: 'Search student...', toutesClasses: 'All classes',
+    toutesSections: 'All sections', eleveTrouve: 'student(s) found',
+    aucunEleve: 'No student found', modifiezRecherche: 'Modify your search or enroll a new student.',
+    inscrire: '+ Enroll', nom: 'Last Name', prenom: 'First Name',
+    dateNaissance: 'Date of Birth', lieuNaissance: 'Place of Birth',
+    sexe: 'Gender', section: 'Section', classe: 'Class', adresse: 'Address',
+    photo: 'Student photo', masculin: 'Male', feminin: 'Female',
+    choisir: '— Choose —', choisirClasse: '— Choose a class —',
+    choisirSection: '— Choose a section —',
+    informationsParent: 'Parent / Guardian Information',
+    pere: 'Father', mere: 'Mother', tuteur: 'Guardian',
+    nomComplet: 'Full name', telephone: 'Phone', emailAcces: 'Email (parent portal access)',
+    transportScolaire: 'School Transport', emprunterBus: 'This student takes the school bus',
+    ligneDeBus: 'Bus route', exLigneA: 'e.g. Route A — Mvan',
+    annuler: 'Cancel', enregistrer: 'Save', inscrireAction: 'Enroll',
+    modifier: 'Edit', supprimer: 'Delete', dossierEleve: 'Student File',
+    matricule: 'Student ID', bus: 'School bus', dateInscription: 'Enrollment date',
+    anneeScolaire: 'School year', statut: 'Status', auMoinsUnParent: 'At least one parent/guardian required',
+    roleParent: 'Parent role',
+    selectionnezRoleParent: 'Please select the primary parent role',
+    erreurPereRequis: 'Please fill in the father\'s name and phone number',
+    erreurMereRequis: 'Please fill in the mother\'s name and phone number',
+    erreurTuteurRequis: 'Please fill in the guardian\'s name and phone number',
+
+    // Bulletins
+    selectionnerEleve: '— Choose a student —', sequence: 'Sequence',
+    saisirNotes: '+ Enter Grades', modifierBulletin: 'Edit Report Card',
+    voirBulletin: 'View Report Card', selectionnerUnEleve: 'Select a student',
+    choisirEleveSeq: 'Choose a student and a sequence to access report cards.',
+    noteParMatiere: 'Grades by Subject', matiere: 'Subject', coeff: 'Coeff.',
+    noteS20: 'Grade /20', appreciation: 'Assessment', finale: 'Final:',
+    elementsDisciplinaires: 'Disciplinary Elements',
+    absences: 'Absences (hours)', retards: 'Late arrivals', conduite: 'Conduct',
+    soinTravail: 'Work quality', ponctualite: 'Punctuality',
+    rangClasse: 'Rank (auto-calculated)', effectifClasse: 'Class size',
+    dateConseil: 'Class council date', appreciationGenerale: "Teacher's general comment",
+    appreciationPlaceholder: 'E.g. Serious and dedicated student...',
+    enregistrerBulletin: 'Save Report Card',
+    telechargerPDF: 'Download PDF', telechargerExcel: 'Download Excel',
+    rang: 'Rank', moy: 'Avg:', rangAuto: '(auto-calculated)',
+
+    // Bulletin officiel
+    repubCameroun: 'REPUBLIQUE DU CAMEROUN', paixTravailPatrie: 'Paix – Travail – Patrie',
+    minEducBase: "MINISTÈRE DE L'ÉDUCATION DE BASE",
+    repCameroon: 'REPUBLIC OF CAMEROON', peaceFatherland: 'Peace – Work – Fatherland',
+    minBasicEdu: 'MINISTRY OF BASIC EDUCATION',
+    bulletinNotes: 'REPORT CARD', annee: 'Year',
+    resultatsMatieres: 'RESULTS BY SUBJECT', moyenneGenerale: 'OVERALL AVERAGE',
+    appreciationGen: 'GENERAL ASSESSMENT', signatureMaitre: "Teacher's Signature",
+    cachetDirection: "Principal's Stamp & Signature", signatureParent: "Parent's Signature",
+    notePonderee: 'Weighted Grade',
+
+    // Évaluations
+    definirEvaluations: 'Define Evaluations',
+    selectionnerClasse: '— Select a class —',
+    selectionnerMatiere: '— Select a subject —',
+    evaluationsPour: 'Evaluations for', en: 'in',
+    nomEvaluation: 'Evaluation name', pourcentage: 'Percentage (%)',
+    ajouterEvaluation: '+ Add evaluation', total: 'Total:',
+    totalDoit100: 'Total percentages must equal 100%',
+    sauvegarder: 'Save',
+    ajustementAuto: 'Auto-adjustment applied to maintain 100%',
+
+    // Banque d'épreuves
+    banqueEpreuvesTitle: 'Exam Bank',
+    sujetsTelechargement: 'Downloadable evaluation subjects',
+    nomSujet: 'Exam name',
+    sujetFichier: 'Exam file',
+    telecharger: 'Download',
+    aucuneEpreuve: 'No exams stored in the bank.',
+    rechercherSujet: 'Search subject...',
+
+    // Coefficients
+    coefficientsClasse: 'Coefficients by Class',
+    choisirClasseCoeff: '— Select a class —',
+    coeffPour: 'Coefficients for',
+    aucuneMatiere: 'No subjects for this class.',
+
+    // Personnel
+    personnel2: 'Staff', membrePersonnel: 'member(s)',
+    ajouterMembre: '+ Add', ajouterUnMembre: '+ Add a member',
+    informationsPersonnelles: 'Personal information',
+    role: 'Role', classeAssigneePers: 'Assigned class(es)',
+    motDePasseInitial: 'Initial password', creer: 'Create',
+    dateEmbauche: 'Hire date', numeroCNI: 'ID Card Number',
+    quartier: 'District / Address', voirFiche: 'View Profile',
+    ficheMembre: 'Staff Profile', modifierMembre: 'Edit',
+    supprimerMembre: 'Delete', classeEnseignees: 'Classes taught',
+    aucuneClasseAssignee: 'No class assigned',
+    confirmSupprimer: 'Confirm deletion?',
+    infoPersoEnseignant: 'Teacher personal information',
+
+    // Classes
+    gestionClasses: 'Class Management', classesCrees: 'class(es) created',
+    nouvelleClasse: '+ New Class', modifierClasse: 'Edit class',
+    niveauNom: 'Level', enseignant: 'Teacher', nonAssigne: '— Not assigned —',
+    maitre: 'Teacher:', effectif: 'Students:', niveau: 'Level:',
+    gestionMatieres: 'Manage subjects', ajouterMatiere: '+ Add a subject',
+    nomMatiere: 'Subject name', supprimerMatiere: 'Delete',
+
+    // Paiements
+    totalEncaisse: 'Total Collected', tauxRecouvrement: 'Collection rate',
+    nbreRecus: 'No. of receipts', elevesActifs: 'Active students',
+    tousLesPaiements: 'All Payments', parEleve: 'Per Student',
+    parametresFrais: 'Settings', rechercher: 'Search...',
+    enregistrerPaiement: '+ Record Payment', recu: 'Receipt', type: 'Type',
+    montant: 'Amount', date: 'Date', actions: 'Actions',
+    aucunPaiement: 'No payment found', paye: 'Paid', restant: 'Remaining:',
+    imprimerRecu: 'Receipt', fraisInscription: 'Enrollment fee (FCFA)',
+    scolariteAnnuelle: 'Annual tuition (FCFA)', fraisBus: 'Bus fee (FCFA/year)',
+    tranchesPaiement: 'Payment installments',
+
+    // Transport
+    transportScolaireTitle: 'School Transport', elevesEnBusSub: 'student(s) on bus',
+    lignesActives: 'Active routes', aucunEleveBus: 'No students on bus',
+    inscrivezBus: 'Enroll students for bus from student management.',
+    elevesSansLigne: 'Students without assigned route',
+
+    // Paramètres
+    parametresCompte: 'Account Settings',
+    informationsPerso: 'Personal Information',
+    changerMdp: 'Change Password',
+    ancienMdp: 'Current password', nouveauMdp: 'New password',
+    confirmerMdp: 'Confirm', changerAction: 'Change',
+    apparence: 'Appearance', modeSombre: 'Dark Mode',
+    modeClairLabel: 'Light Mode', langue: 'Language',
+    aPropos: 'About', sauvegarderProfil: 'Save',
+    activerModeSombre: 'Enable dark mode',
+    langueActive: 'Active language',
+
+    // Messagerie
+    messagerieTitle: 'Messaging', nouvelleConversation: 'New conversation',
+    destinataire: 'Recipient', sujet: 'Subject', message: 'Message',
+    envoyer: 'Send', inbox: 'Inbox',
+    envoye: 'Sent', repondre: 'Reply', aucunMessage: 'No messages',
+    selectConversation: 'Select a conversation',
+    nouveauMessage: 'New message', ecrireMessage: 'Write your message...',
+    aucunDestinataire: 'No recipient available',
+
+    // Général
+    oui: 'Yes', non: 'No', actif: 'active', inactif: 'inactive',
+    fermer: '✕', retour: '← Back', bonjour: 'Hello,',
+    excellent: 'Excellent', tresBien: 'Very Good', bien: 'Good',
+    assezBien: 'Fairly Good', passable: 'Satisfactory', insuffisant: 'Insufficient',
+    sectionFr: 'francophone', sectionEn: 'anglophone', sectionBi: 'bilingual',
+    chargementApp: 'Loading École Les Étoiles…',
+    accesNonAutorise: 'Access denied',
+  }
+};
+
+export default T;

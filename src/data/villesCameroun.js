@@ -1,0 +1,60 @@
+/**
+ * @file villesCameroun.js
+ * @description Table isolée des 200 principales villes du Cameroun,
+ * utilisée uniquement pour les listes déroulantes de lieu de naissance.
+ * Cette table n'a aucune association avec les autres entités du projet.
+ */
+
+const VILLES_CAMEROUN = [
+  "Yaoundé", "Douala", "Bafoussam", "Bamenda", "Garoua",
+  "Maroua", "Ngaoundéré", "Bertoua", "Loum", "Kumba",
+  "Edéa", "Foumban", "Nkongsamba", "Mbalmayo", "Dschang",
+  "Limbe", "Buea", "Kribi", "Ebolowa", "Sangmélima",
+  "Bangangté", "Mbouda", "Bafang", "Kumbo", "Wum",
+  "Guider", "Kaélé", "Mora", "Kousséri", "Yagoua",
+  "Mokolo", "Mindif", "Tokombéré", "Pitoa", "Garoua Boulaï",
+  "Poli", "Tibati", "Ngaoundal", "Meiganga", "Belel",
+  "Batouri", "Yokadouma", "Abong-Mbang", "Doumé", "Ndelele",
+  "Dimako", "Mbang", "Lomié", "Ngoura", "Betaré Oya",
+  "Ambam", "Bipindi", "Lolodorf", "Meyomessala", "Akom II",
+  "Zoétélé", "Djoum", "Mintom", "Mvangué", "Obala",
+  "Soa", "Mbankomo", "Nanga Eboko", "Akonolinga", "Ntui",
+  "Mfou", "Okola", "Bafia", "Ndikinimeki", "Ombessa",
+  "Makak", "Monatélé", "Bot Makak", "Eseka", "Ngoumou",
+  "Biyouha", "Messondo", "Song Loulou", "Simédia", "Mbanga",
+  "Manjo", "Nkondjock", "Souza", "Melong", "Ndom",
+  "Tombel", "Bangem", "Nguti", "Mamfé", "Eyumojock",
+  "Mundemba", "Konye", "Muyuka", "Tiko", "Mutengene",
+  "Idenau", "Ekona", "Muea", "Meanja", "Lysoka",
+  "Tombel", "Bombe Bakundu", "Bafut", "Santa", "Tubah",
+  "Nkwen", "Ndop", "Babessi", "Jakiri", "Nso",
+  "Fundong", "Belo", "Mbengwi", "Batibo", "Widikum",
+  "Bali", "Babadjou", "Galim", "Foumbot", "Koutaba",
+  "Mbouda", "Penka-Michel", "Bangangté", "Bassamba", "Tonga",
+  "Baham", "Bandja", "Bazou", "Bana", "Balengou",
+  "Poumougne", "Bandjoun", "Bayangam", "Bazou", "Bafousam",
+  "Santchou", "Fongo Tongo", "Melap", "Mbouda", "Bamougoum",
+  "Bamendjou", "Bamendjinda", "Bangou", "Djuttitsa", "Banka",
+  "Kekem", "Bafou", "Fotouni", "Nkong-Ni", "Bangam",
+  "Ngambé", "Ndom", "Penja", "Njombe", "Moungo",
+  "Bare Bakem", "Mbanga", "Manjo", "Nkondjock", "Melong",
+  "Missellele", "Tiko", "Buea", "Bokwango", "Bonduma",
+  "Bolifamba", "Lysoka", "Muea", "Woteke", "Moliwe",
+  "Bota", "Limbe", "Fako", "Ekona", "Muyuka",
+  "Mamfe", "Widikum", "Besali", "Nkambe", "Nwa",
+  "Donga Mantung", "Ako", "Misaje", "Elak", "Oku",
+  "Sabga", "Bamali", "Bafut", "Santa", "Awing",
+  "Bambui", "Balikumbat", "Ndop", "Babessi", "Bangolan",
+  "Wum", "Menchum", "Zhoa", "Esimbi", "Furu Awa",
+  "Bum", "Befang", "Boyo", "Njinikom", "Belo",
+  "Binka", "Fundong", "Tabati", "Faro et Déo", "Tignere",
+  "Galim Tignère", "Dir", "Mbere", "Ngaoui", "Djohong",
+  "Ngan Ha", "Mandama", "Tchéboa", "Lagdo", "Dembo",
+  "Rey Bouba", "Touboro", "Pignari", "Tchollire", "Beka",
+  "Mbé", "Ngong", "Bibémi", "Madingring", "Sorombéo",
+  "Figuil", "Lagdo", "Ngong", "Golombé", "Gaschiga",
+  "Dogba", "Bogo", "Meri", "Moutouroua", "Gazawa",
+  "Moulvoudaye", "Papata", "Ziling", "Roua", "Binder"
+];
+
+export default VILLES_CAMEROUN;
